@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Task</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Create a New Task</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('add_task') }}" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+
+        <div>
+            {{ form.title.label }}<br>
+            {{ form.title(size=32) }}
+            {% if form.title.errors %}
+                <ul class="errors">
+                    {% for error in form.title.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div>
+            {{ form.content.label }}<br>
+            {{ form.content(cols=30, rows=5) }}
+            {% if form.content.errors %}
+                <ul class="errors">
+                    {% for error in form.content.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div>
+            {{ form.file.label }}<br>
+            {{ form.file() }}
+            {% if form.file.errors %}
+                <ul class="errors">
+                    {% for error in form.file.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <br>
+        <button type="submit">Create Task</button>
+    </form>
+    <br>
+    <a href="{{ url_for('index') }}">Back to Task List</a>
+</body>
+</html>

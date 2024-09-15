@@ -1,0 +1,16 @@
+<ul>
+    {% for task in tasks %}
+        <li class="task" data-id="{{ task.id }}">
+            <h3>{{ task.title }}</h3>
+            <p>{{ task.content }}</p>
+            
+            {% if task.saved_filename %}
+                <p><a href="{{ url_for('download_file', file_id=task.id) }}">Download {{ task.original_filename }}</a></p>
+            {% endif %}
+            <small>Created by {{ task.author.username }} on {{ task.date_created.strftime('%Y-%m-%d %H:%M') }}</small>
+            <form action="{{ url_for('delete_task', task_id=task.id) }}" method="POST">
+                <button type="submit">Finished</button>
+            </form>
+        </li>
+{% endfor %}
+</ul>
